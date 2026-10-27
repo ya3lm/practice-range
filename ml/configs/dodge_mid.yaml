@@ -50,7 +50,7 @@ environment_parameters:
     sampler_type: uniform
     sampler_parameters: { min_value: 0.20, max_value: 0.45 }
 engine_settings:
-  time_scale: 20
+  time_scale: 1          # MUST stay 1: Time.deltaTime = timeScale / capture_frame_rate, and the game logic is Update-based (see CLAUDE.md)
   target_frame_rate: -1
   capture_frame_rate: 60
   no_graphics: false

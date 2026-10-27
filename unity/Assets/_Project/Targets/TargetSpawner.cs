@@ -45,7 +45,9 @@ namespace PracticeRange.Targets
             for (int i = arenaRoot.childCount - 1; i >= 0; i--) Destroy(arenaRoot.GetChild(i).gameObject);
             _cover.Clear();
             float w = _mode.arenaHalfWidth, d = _mode.arenaHalfDepth;
-            _arena = new Bounds(transform.position + new Vector3(0, 0, d * 0.5f), new Vector3(w * 2f, 10f, d));
+            // Targets never come closer than half the mode's minimum spawn distance (a target at the player's feet is not a drill).
+            float standoff = Mathf.Max(2f, _mode.minDistance * 0.5f);
+            _arena = new Bounds(transform.position + new Vector3(0, 0, (d + standoff) * 0.5f), new Vector3(w * 2f, 10f, d - standoff));
             var floor = PracticeRange.Core.Primitives.Create(PrimitiveType.Cube);
             floor.name = "Floor"; floor.transform.SetParent(arenaRoot, false);
             floor.transform.localScale = new Vector3(w * 2f + 4f, 0.2f, d + 10f);
@@ -101,7 +103,8 @@ namespace PracticeRange.Targets
         public Vector3 RandomSpawnPoint()
         {
             float z = Random.Range(_mode.minDistance, _mode.maxDistance);
-            float x = Random.Range(-_mode.arenaHalfWidth * 0.7f, _mode.arenaHalfWidth * 0.7f);
+            float lateral = Mathf.Min(_mode.arenaHalfWidth * 0.7f, z * Mathf.Tan(_mode.maxLateralAngleDeg * Mathf.Deg2Rad) * 0.8f);
+            float x = Random.Range(-lateral, lateral);
             return transform.position + new Vector3(x, 0f, z);
         }
 

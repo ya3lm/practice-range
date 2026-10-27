@@ -8,7 +8,7 @@ grpcio>=1.60
 h5py>=2.9.0
 Pillow>=4.2.1
 pyyaml>=3.1.0
-torch>=2.1.1
+torch>=2.1.1,<2.6   # >=2.6 defaults to the dynamo ONNX exporter (needs onnxscript); mlagents 1.1.0 uses the legacy one
 tensorboard>=2.14
 six>=1.16
 attrs>=19.3.0

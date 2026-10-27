@@ -103,9 +103,11 @@ namespace PracticeRange.Editor
             if (c == null)
             {
                 c = ScriptableObject.CreateInstance<ModeConfig>();
-                ModeDefaults.Apply(c, m);
                 AssetDatabase.CreateAsset(c, path);
             }
+            // Mode assets are generated artifacts: defaults in ModeDefaults are the source of truth and are re-applied every bootstrap.
+            ModeDefaults.Apply(c, m);
+            EditorUtility.SetDirty(c);
             return c;
         }
 

@@ -66,6 +66,10 @@ Read those before re-running anything.
 - **The browser-pane console persists across page loads.** When verifying a new build, read the *latest* messages,
   not `onlyErrors`, or you will chase errors from a previous build.
 - `Object.GetInstanceID()` is a compile error on 6.6; use `GetEntityId()`.
+- **ML-Agents `time_scale` must stay 1.** With `capture_frame_rate: 60`, `Time.deltaTime = time_scale / 60`; at 20 every
+  Update frame was 0.33 s of game time, the synthetic player never fired, and the policy trained at a cadence 20x coarser
+  than the game. Headless players already run uncapped, so time_scale 1 loses nothing. `SyntheticPlayerTests` guards this.
+- **Never run two batch-mode editors on the project at once** (build + tests): the second aborts on the project lock.
 
 ## Git
 - Conventional commits (`feat:`, `fix:`, `ml:`, `content:`, `tools:`).
