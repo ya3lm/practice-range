@@ -1,7 +1,7 @@
 # ml/ — training the dodge policies
 
 ```bash
-cd ml && uv venv && uv pip install -r requirements.txt
+cd ml && ./install.sh
 ../tools/train.sh mid            # opens trainer; press Play in Training_Mid scene (or build a headless player first)
 uv run scripts/plot_training.py results/<run-id>
 ../tools/install_model.sh <run-id> mid

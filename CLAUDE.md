@@ -16,7 +16,7 @@ content/content-safety.md before touching anything that appears on screen.
   `/Applications/Unity/Hub/Editor/<version>/Unity.app/Contents/MacOS/Unity`.
 - Pick the editor version from `unity/ProjectSettings/ProjectVersion.txt` (currently 6000.6.7f1).
   `tools/bootstrap.sh` is idempotent and regenerates scenes, prefabs, mode assets, URP assets, build settings.
-- Python: `uv` is installed. `cd ml && uv venv && uv pip install -r requirements.txt`.
+- Python: `uv` is installed. `cd ml && ./install.sh`.
 - Node 22 is available for the WebGL template and jslib tooling.
 
 ## Commands (always via tools/, never ad hoc)

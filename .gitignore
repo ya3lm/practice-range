@@ -39,3 +39,4 @@ __pycache__/
 *.pyc
 # Node
 node_modules/
+unity/Data/

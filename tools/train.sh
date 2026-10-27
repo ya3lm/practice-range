@@ -7,7 +7,7 @@ MODE="${1:?mode: close|mid|far}"; shift || true
 Mode="$(tr '[:lower:]' '[:upper:]' <<< "${MODE:0:1}")${MODE:1}"
 RUN_ID="${1:-${MODE}_$(date +%Y%m%d_%H%M)}"; shift || true
 cd "$REPO/ml"
-[[ -d .venv ]] || { uv venv && uv pip install -r requirements.txt; }
+[[ -d .venv ]] || ./install.sh
 ENV_ARGS=()
 if [[ -d "$REPO/build/training/PracticeRangeTraining_$Mode.app" ]]; then
   ENV_ARGS=(--env "$REPO/build/training/PracticeRangeTraining_$Mode.app" --num-envs 2 --no-graphics)
