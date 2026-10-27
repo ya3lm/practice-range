@@ -3,7 +3,7 @@
 A first-person reflex trainer in the browser whose targets learn to dodge you.
 Unity 6 · ML-Agents (PPO) trained offline · Sentis inference in WebGL/WebGPU · contextual bandit adapting live · procedural everything.
 
-**Status:** builds and runs in the browser (WebGL 2, Unity 6000.6.7f1); policies not yet trained. **Play:** _(link after first deploy)_ · **Plan:** [PLAN.md](PLAN.md) · **Posts:** [content/posts.md](content/posts.md)
+**Status:** builds and runs in the browser (WebGL 2, Unity 6000.6.7f1); policies not yet trained. **Source:** https://github.com/ya3lm/practice-range · **Play:** _(link after first deploy)_ · **Plan:** [PLAN.md](PLAN.md) · **Posts:** [content/posts.md](content/posts.md)
 
 ## Quick start
 ```bash
