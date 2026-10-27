@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{{ PRODUCT_NAME }}} — targets that learn to dodge</title>
+  <meta name="description" content="A browser aim trainer whose targets are trained with reinforcement learning to dodge you. Unity 6, ML-Agents, Sentis.">
+  <style>
+    :root { --bg:#0b0d11; --fg:#e8ecf1; --mute:#8d98a5; --acc:#19c7c7; }
+    html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font:14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
+    #wrap { display:flex; flex-direction:column; align-items:center; min-height:100%; }
+    #unity-container { position:relative; width:min(100vw, 177.78vh); aspect-ratio:16/9; background:#000; }
+    #unity-canvas { width:100%; height:100%; display:block; }
+    #loading { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; background:var(--bg); }
+    #bar { width:240px; height:4px; background:#1d232b; border-radius:2px; overflow:hidden; }
+    #bar > div { height:100%; width:0; background:var(--acc); transition:width .15s; }
+    #hint { color:var(--mute); font-size:12px; }
+    footer { padding:14px 16px; color:var(--mute); font-size:12px; text-align:center; max-width:720px; }
+    footer a { color:var(--acc); text-decoration:none; }
+    #fs { position:absolute; right:10px; bottom:10px; background:#161b22; color:var(--fg); border:1px solid #2a323c; border-radius:6px; padding:6px 10px; cursor:pointer; font-size:12px; }
+    #warn { display:none; padding:12px 16px; background:#2a1a00; color:#ffb366; }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <div id="warn">This page needs a desktop browser with a mouse. Pointer lock does not work on touch devices.</div>
+    <div id="unity-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      <div id="loading"><div id="bar"><div></div></div><div id="hint">loading…</div></div>
+      <button id="fs" title="Fullscreen">⛶</button>
+    </div>
+    <footer>
+      Click the canvas to lock the mouse. ESC for settings, F6 to restart.
+      Targets run a PPO policy trained with Unity ML-Agents; the "Learning" level adds a contextual bandit that adapts to you live.
+      Built in Unity 6 · <a href="https://github.com/" id="src">source</a>
+    </footer>
+  </div>
+  <script>
+    // Pointer lock can be refused by embedding hosts (iframes without allow="pointer-lock", in-app browsers).
+    // Unity's loader would turn that rejection into a fatal error dialog; swallow it and keep playing.
+    window.addEventListener('unhandledrejection', function (e) {
+      var r = e.reason; var name = r && (r.name || ''); var msg = r && (r.message || '');
+      if (name === 'WrongDocumentError' || name === 'SecurityError' || /pointer lock/i.test(msg)) { e.preventDefault(); e.stopImmediatePropagation(); }
+    }, true);
+    if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) document.getElementById('warn').style.display = 'block';
+    var canvas = document.getElementById('unity-canvas');
+    var fill = document.querySelector('#bar > div'), hint = document.getElementById('hint');
+    var config = {
+      dataUrl: "Build/{{{ DATA_FILENAME }}}",
+      frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+#if USE_THREADS
+      workerUrl: "Build/{{{ WORKER_FILENAME }}}",
+#endif
+#if USE_WASM
+      codeUrl: "Build/{{{ CODE_FILENAME }}}",
+#endif
+#if MEMORY_FILENAME
+      memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+      symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+#endif
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+      matchWebGLToCanvasSize: true,
+      autoSyncPersistentDataPath: true,
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+    };
+    var script = document.createElement('script');
+    script.src = "Build/{{{ LOADER_FILENAME }}}";
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (p) {
+        fill.style.width = Math.round(p * 100) + '%';
+        hint.textContent = p < 0.9 ? 'loading ' + Math.round(p * 100) + '%' : 'starting…';
+      }).then(function (inst) {
+        window.unityInstance = inst;           // used by FileBridge.jslib for SendMessage
+        document.getElementById('loading').remove();
+        document.getElementById('fs').onclick = function () { inst.SetFullscreen(1); };
+      }).catch(function (m) { hint.textContent = m; });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>

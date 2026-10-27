@@ -1,0 +1,19 @@
+{
+  "name": "PracticeRange.Editor",
+  "rootNamespace": "PracticeRange.Editor",
+  "references": [
+    "PracticeRange.Runtime",
+    "Unity.InputSystem",
+    "Unity.ML-Agents",
+    "Unity.RenderPipelines.Universal.Runtime"
+  ],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

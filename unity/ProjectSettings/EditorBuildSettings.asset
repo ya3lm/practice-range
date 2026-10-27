@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Project/Scenes/Main.unity
+    guid: 8d3d3b6cd92ee45b8a00eeda17ea4f85
+  - enabled: 0
+    path: Assets/_Project/Scenes/Training_Close.unity
+    guid: af084bce822564a54bc586c792877c34
+  - enabled: 0
+    path: Assets/_Project/Scenes/Training_Mid.unity
+    guid: d73209d4ec8a44999ae73ab8ac7c6312
+  - enabled: 0
+    path: Assets/_Project/Scenes/Training_Far.unity
+    guid: 22e37edb021a94d6dbc8d6ae57d4292f
+  m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

@@ -1,0 +1,21 @@
+{
+  "name": "PracticeRange.Runtime",
+  "rootNamespace": "PracticeRange",
+  "references": [
+    "Unity.InputSystem",
+    "Unity.ML-Agents",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "glTFast",
+    "Unity.Burst",
+    "Unity.InferenceEngine"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -1,0 +1,81 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+  <ui:VisualElement name="root" class="root">
+    <!-- HUD -->
+    <ui:VisualElement name="hud" class="hud" picking-mode="Ignore">
+      <ui:VisualElement name="crosshair" class="crosshair" picking-mode="Ignore">
+        <ui:VisualElement name="ch-top" class="ch-line" picking-mode="Ignore"/>
+        <ui:VisualElement name="ch-bottom" class="ch-line" picking-mode="Ignore"/>
+        <ui:VisualElement name="ch-left" class="ch-line" picking-mode="Ignore"/>
+        <ui:VisualElement name="ch-right" class="ch-line" picking-mode="Ignore"/>
+        <ui:VisualElement name="ch-dot" class="ch-dot" picking-mode="Ignore"/>
+      </ui:VisualElement>
+      <ui:VisualElement class="hud-top" picking-mode="Ignore">
+        <ui:Label name="timer" text="60.0" class="hud-big"/>
+        <ui:Label name="accuracy" text="0%" class="hud-mid"/>
+        <ui:Label name="ai-status" text="AI: Trained" class="hud-small"/>
+        <ui:Label name="bandit" text="" class="hud-small"/>
+      </ui:VisualElement>
+      <ui:Label name="countdown" text="3" class="countdown"/>
+      <ui:Label name="hint" text="Press ESC for settings · F6 to restart" class="hint"/>
+    </ui:VisualElement>
+
+    <!-- Menu -->
+    <ui:VisualElement name="menu" class="menu">
+      <ui:VisualElement class="menu-left">
+        <ui:Label text="PRACTICE RANGE" class="title"/>
+        <ui:Label text="targets that learn to dodge" class="subtitle"/>
+        <ui:Button name="btn-start" text="Start (F6)" class="btn btn-primary"/>
+        <ui:Button name="btn-import" text="Import target (.glb / .png)" class="btn"/>
+        <ui:Label name="import-status" text="" class="status"/>
+        <ui:Button name="btn-reset" text="Reset settings" class="btn btn-ghost"/>
+        <ui:Label name="version" text="v0.1" class="version"/>
+      </ui:VisualElement>
+      <ui:ScrollView name="settings" class="settings">
+        <ui:Label text="Range" class="section"/>
+        <ui:VisualElement class="row"><ui:Label text="Mode" class="row-label"/><ui:DropdownField name="mode" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Target" class="row-label"/><ui:DropdownField name="target-style" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="AI level" class="row-label"/><ui:DropdownField name="ai-level" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Weapon skin" class="row-label"/><ui:DropdownField name="weapon-skin" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Round length (s)" class="row-label"/><ui:Slider name="round" low-value="15" high-value="180" class="row-ctl"/><ui:FloatField name="round-v" class="row-val"/></ui:VisualElement>
+
+        <ui:Label text="Sensitivity" class="section"/>
+        <ui:VisualElement class="row"><ui:Label text="cm / 360" class="row-label"/><ui:Slider name="cm360" low-value="5" high-value="120" class="row-ctl"/><ui:FloatField name="cm360-v" class="row-val"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Mouse DPI" class="row-label"/><ui:Slider name="dpi" low-value="200" high-value="6400" class="row-ctl"/><ui:FloatField name="dpi-v" class="row-val"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Horizontal FOV" class="row-label"/><ui:Slider name="fov" low-value="60" high-value="130" class="row-ctl"/><ui:FloatField name="fov-v" class="row-val"/></ui:VisualElement>
+        <ui:Label name="edpi" text="eDPI —" class="status"/>
+
+        <ui:Label text="Crosshair" class="section"/>
+        <ui:VisualElement class="row"><ui:Label text="Size" class="row-label"/><ui:Slider name="ch-size" low-value="0" high-value="20" class="row-ctl"/><ui:FloatField name="ch-size-v" class="row-val"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Thickness" class="row-label"/><ui:Slider name="ch-thick" low-value="1" high-value="6" class="row-ctl"/><ui:FloatField name="ch-thick-v" class="row-val"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Gap" class="row-label"/><ui:Slider name="ch-gap" low-value="0" high-value="12" class="row-ctl"/><ui:FloatField name="ch-gap-v" class="row-val"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Center dot" class="row-label"/><ui:Toggle name="ch-dot-toggle" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Crosshair color" class="row-label"/><ui:TextField name="ch-color" value="#00FFFF" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Target color" class="row-label"/><ui:TextField name="target-color" value="#00FFFF" class="row-ctl"/></ui:VisualElement>
+
+        <ui:Label text="Audio" class="section"/>
+        <ui:VisualElement class="row"><ui:Label text="Hit sound" class="row-label"/><ui:DropdownField name="hit-sound" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Kill sound" class="row-label"/><ui:DropdownField name="kill-sound" class="row-ctl"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Volume" class="row-label"/><ui:Slider name="volume" low-value="0" high-value="1" class="row-ctl"/></ui:VisualElement>
+
+        <ui:Label text="Session" class="section"/>
+        <ui:VisualElement class="row"><ui:Label text="Countdown (s)" class="row-label"/><ui:Slider name="countdown-s" low-value="0" high-value="5" class="row-ctl"/><ui:FloatField name="countdown-v" class="row-val"/></ui:VisualElement>
+        <ui:VisualElement class="row"><ui:Label text="Restart key" class="row-label"/><ui:TextField name="restart-key" value="f6" class="row-ctl"/></ui:VisualElement>
+      </ui:ScrollView>
+    </ui:VisualElement>
+
+    <!-- Scoreboard -->
+    <ui:VisualElement name="scoreboard" class="scoreboard">
+      <ui:Label text="ROUND COMPLETE" class="title"/>
+      <ui:VisualElement class="score-grid">
+        <ui:Label name="s-accuracy" text="Accuracy 0%" class="score"/>
+        <ui:Label name="s-kills" text="Kills 0" class="score"/>
+        <ui:Label name="s-reaction" text="Reaction 0 ms" class="score"/>
+        <ui:Label name="s-shots" text="Shots 0" class="score"/>
+        <ui:Label name="s-ai" text="AI Trained" class="score"/>
+        <ui:Label name="s-bandit" text="" class="score"/>
+      </ui:VisualElement>
+      <ui:VisualElement name="timeline" class="timeline"/>
+      <ui:Label text="F6 to run it again · ESC for settings" class="hint-inline"/>
+    </ui:VisualElement>
+  </ui:VisualElement>
+</ui:UXML>
