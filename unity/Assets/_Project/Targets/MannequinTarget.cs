@@ -37,7 +37,7 @@ namespace PracticeRange.Targets
             {
                 var name = _rig.renderers[i].name;
                 bool primary = name == "Pelvis" || name == "Head" || name.Contains("Forearm");
-                SetMatColor(_mats[i], primary ? c : _secondary);
+                SetMatColor(_mats[i], primary ? c * PracticeRange.Core.Shaders.AccentIntensity : _secondary);
             }
         }
 
@@ -61,7 +61,7 @@ namespace PracticeRange.Targets
 
         System.Collections.IEnumerator Flash()
         {
-            foreach (var m in _mats) SetMatColor(m, Color.white);
+            foreach (var m in _mats) SetMatColor(m, Color.white * 3f);
             yield return new WaitForSeconds(0.05f);
             ApplyColor(_color);
         }
@@ -75,6 +75,7 @@ namespace PracticeRange.Targets
             // A little of the impulse goes to the pelvis so the whole body reads the hit, not just a limb.
             _rig.pelvis.AddForce(hit.direction * hit.force * 0.35f, ForceMode.Impulse);
             if (head) SlowMo.Trigger(0.3f, 0.3f);
+            KillRing.Spawn(hit.point, _color, 1.2f);
             foreach (var c in GetComponentsInChildren<Collider>()) c.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
             Destroy(gameObject, 3.5f);
         }

@@ -19,8 +19,8 @@ namespace PracticeRange.Targets
 
         public override void ApplyColor(Color c)
         {
-            if (_material == null) { _material = MakeUnlit(c); body.sharedMaterial = _material; }
-            else SetMatColor(_material, c);
+            if (_material == null) { _material = PracticeRange.Core.Shaders.NewEmissive(c); body.sharedMaterial = _material; }
+            else SetMatColor(_material, c * PracticeRange.Core.Shaders.AccentIntensity);
         }
 
         protected override void OnDamaged(HitInfo hit)
@@ -32,9 +32,9 @@ namespace PracticeRange.Targets
 
         System.Collections.IEnumerator Flash()
         {
-            SetMatColor(_material, Color.white);
+            SetMatColor(_material, Color.white * 3f);
             yield return new WaitForSeconds(0.05f);
-            SetMatColor(_material, _color);
+            SetMatColor(_material, _color * PracticeRange.Core.Shaders.AccentIntensity);
         }
 
         protected override void OnDeath(HitInfo hit, bool head)
@@ -47,6 +47,7 @@ namespace PracticeRange.Targets
                 rb.AddForceAtPosition(hit.direction * hit.force, hit.point, ForceMode.Impulse);
             }
             Shatter.Spawn(transform.position, transform.localScale.x, _color, (int)shatterPieces, hit.direction * hit.force * 0.5f);
+            KillRing.Spawn(hit.point, _color, 1f);
             Destroy(gameObject, 0.02f);
         }
     }

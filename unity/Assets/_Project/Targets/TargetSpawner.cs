@@ -45,6 +45,12 @@ namespace PracticeRange.Targets
             for (int i = arenaRoot.childCount - 1; i >= 0; i--) Destroy(arenaRoot.GetChild(i).gameObject);
             _cover.Clear();
             float w = _mode.arenaHalfWidth, d = _mode.arenaHalfDepth;
+            // Depth cue: linear fog toward the mode background, starting past the spawn band.
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Linear;
+            RenderSettings.fogColor = _mode.background;
+            RenderSettings.fogStartDistance = _mode.maxDistance * 0.7f;
+            RenderSettings.fogEndDistance = d + 25f;
             // Targets never come closer than half the mode's minimum spawn distance (a target at the player's feet is not a drill).
             float standoff = Mathf.Max(2f, _mode.minDistance * 0.5f);
             _arena = new Bounds(transform.position + new Vector3(0, 0, (d + standoff) * 0.5f), new Vector3(w * 2f, 10f, d - standoff));
@@ -52,7 +58,7 @@ namespace PracticeRange.Targets
             floor.name = "Floor"; floor.transform.SetParent(arenaRoot, false);
             floor.transform.localScale = new Vector3(w * 2f + 4f, 0.2f, d + 10f);
             floor.transform.localPosition = new Vector3(0, -0.1f, d * 0.5f);
-            Tint(floor, _mode.floor);
+            floor.GetComponent<Renderer>().sharedMaterial = PracticeRange.Core.Shaders.NewGrid(_mode.floor, _mode.accent, 0.38f, 0.16f);
             // Back wall and side walls, so stray shots land somewhere and the space reads as a room.
             Wall(new Vector3(0, 3f, d + 4f), new Vector3(w * 2f + 4f, 6f, 0.3f));
             Wall(new Vector3(-w - 2f, 3f, d * 0.5f), new Vector3(0.3f, 6f, d + 10f));
@@ -68,7 +74,7 @@ namespace PracticeRange.Targets
                     c.name = "Cover"; c.transform.SetParent(arenaRoot, false);
                     c.transform.localScale = new Vector3(2.2f, 1.6f, 0.6f);
                     c.transform.localPosition = new Vector3(x, 0.8f, z);
-                    Tint(c, _mode.floor * 1.6f);
+                    c.GetComponent<Renderer>().sharedMaterial = PracticeRange.Core.Shaders.NewGrid(_mode.floor * 1.8f, _mode.accent, 0.45f, 0.3f);
                     _cover.Add(c.transform);
                 }
             }
@@ -79,7 +85,7 @@ namespace PracticeRange.Targets
             var g = PracticeRange.Core.Primitives.Create(PrimitiveType.Cube);
             g.name = "Wall"; g.transform.SetParent(arenaRoot, false);
             g.transform.localPosition = pos; g.transform.localScale = size;
-            Tint(g, _mode.background * 1.3f);
+            g.GetComponent<Renderer>().sharedMaterial = PracticeRange.Core.Shaders.NewGrid(_mode.background * 1.25f, _mode.accent, 0.18f, 0.08f);
         }
 
         static void Tint(GameObject g, Color c)

@@ -16,8 +16,8 @@ namespace PracticeRange.Targets
 
         public override void ApplyColor(Color c)
         {
-            if (_material == null) { _material = MakeUnlit(c); body.sharedMaterial = _material; }
-            else SetMatColor(_material, c);
+            if (_material == null) { _material = PracticeRange.Core.Shaders.NewEmissive(c); body.sharedMaterial = _material; }
+            else SetMatColor(_material, c * PracticeRange.Core.Shaders.AccentIntensity);
         }
 
         protected override void OnDamaged(HitInfo hit)
@@ -28,16 +28,17 @@ namespace PracticeRange.Targets
         System.Collections.IEnumerator Dent(HitInfo hit)
         {
             var s0 = transform.localScale;
-            SetMatColor(_material, Color.white);
+            SetMatColor(_material, Color.white * 3f);
             transform.localScale = s0 * 0.85f;
             yield return new WaitForSeconds(0.06f);
             transform.localScale = s0;
-            SetMatColor(_material, _color);
+            SetMatColor(_material, _color * PracticeRange.Core.Shaders.AccentIntensity);
         }
 
         protected override void OnDeath(HitInfo hit, bool head)
         {
             Shatter.Spawn(transform.position, transform.localScale.x, _color, 6, hit.direction * hit.force * 0.4f, sphereFragments: true);
+            KillRing.Spawn(hit.point, _color, 1.4f);
             foreach (var c in GetComponentsInChildren<Collider>()) c.enabled = false;
             StartCoroutine(Pop());
         }

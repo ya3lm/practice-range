@@ -12,6 +12,7 @@
       <ui:VisualElement class="hud-top" picking-mode="Ignore">
         <ui:Label name="timer" text="60.0" class="hud-big"/>
         <ui:Label name="accuracy" text="0%" class="hud-mid"/>
+        <ui:Label name="mode-status" text="MID · CUBE" class="hud-small"/>
         <ui:Label name="ai-status" text="AI: Trained" class="hud-small"/>
         <ui:Label name="bandit" text="" class="hud-small"/>
       </ui:VisualElement>

@@ -7,7 +7,8 @@
     "Unity.RenderPipelines.Universal.Runtime",
     "glTFast",
     "Unity.Burst",
-    "Unity.InferenceEngine"
+    "Unity.InferenceEngine",
+    "Unity.RenderPipelines.Core.Runtime"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

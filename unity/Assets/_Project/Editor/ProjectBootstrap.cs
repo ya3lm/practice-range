@@ -57,15 +57,17 @@ namespace PracticeRange.Editor
             {
                 rp = UniversalRenderPipelineAsset.Create(rd);
                 rp.msaaSampleCount = 4;
-                rp.supportsHDR = false;
+                rp.supportsHDR = true;
                 rp.shadowDistance = 30f;
                 AssetDatabase.CreateAsset(rp, rpPath);
             }
+            rp.supportsHDR = true;
+            EditorUtility.SetDirty(rp);
             GraphicsSettings.defaultRenderPipeline = rp;
             // Always include the shaders that runtime-created materials use.
             var gs = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/GraphicsSettings.asset")[0]);
             var always = gs.FindProperty("m_AlwaysIncludedShaders");
-            foreach (var sh in new[] { Shaders.Unlit, Shader.Find("Universal Render Pipeline/Lit"), Shader.Find("Hidden/Universal Render Pipeline/FallbackError") })
+            foreach (var sh in new[] { Shaders.Unlit, Shader.Find("PracticeRange/Grid"), Shader.Find("Universal Render Pipeline/Lit"), Shader.Find("Hidden/Universal Render Pipeline/FallbackError") })
             {
                 if (sh == null) continue;
                 bool present = false;
@@ -135,8 +137,8 @@ namespace PracticeRange.Editor
             var go = new GameObject("Tracer");
             var lr = go.AddComponent<LineRenderer>();
             lr.startWidth = 0.004f; lr.endWidth = 0.012f; lr.useWorldSpace = true;
-            lr.material = UnlitMat(new Color(1f, 1f, 1f, 0.9f), "Tracer");
-            lr.startColor = lr.endColor = new Color(1f, 1f, 1f, 0.9f);
+            lr.material = UnlitMat(new Color(2.2f, 2.2f, 2.2f, 1f), "Tracer");
+            lr.startColor = lr.endColor = new Color(2.2f, 2.2f, 2.2f, 1f);
             lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             go.AddComponent<Tracer>();
             var prefab = PrefabUtility.SaveAsPrefabAsset(go, path);
@@ -167,6 +169,56 @@ namespace PracticeRange.Editor
             var prefab = PrefabUtility.SaveAsPrefabAsset(go, path);
             Object.DestroyImmediate(go);
             return prefab.GetComponent<NerfDart>();
+        }
+
+        static Material TransparentMat()
+        {
+            string path = Root + "/Player/BaseTransparent.mat";
+            var m = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (m != null) return m;
+            m = new Material(Shaders.Unlit);
+            m.SetFloat("_Surface", 1f); m.SetFloat("_Blend", 0f);
+            m.SetOverrideTag("RenderType", "Transparent");
+            m.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            m.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            m.SetInt("_ZWrite", 0);
+            m.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            m.renderQueue = 3000;
+            m.SetColor("_BaseColor", Color.white);
+            AssetDatabase.CreateAsset(m, path);
+            return m;
+        }
+
+        static Material GridMat()
+        {
+            string path = Root + "/Player/Grid.mat";
+            var m = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (m != null) return m;
+            var sh = Shader.Find("PracticeRange/Grid") ?? Shaders.Unlit;
+            m = new Material(sh);
+            AssetDatabase.CreateAsset(m, path);
+            return m;
+        }
+
+        static VolumeProfile EnsureVolumeProfile()
+        {
+            string path = Root + "/Settings/PostProcessing.asset";
+            var profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);
+            if (profile != null) return profile;
+            profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            AssetDatabase.CreateAsset(profile, path);
+            var bloom = profile.Add<Bloom>(true);
+            bloom.intensity.Override(1.6f); bloom.threshold.Override(1.0f); bloom.scatter.Override(0.72f);
+            var vignette = profile.Add<Vignette>(true);
+            vignette.intensity.Override(0.3f); vignette.smoothness.Override(0.55f);
+            var tone = profile.Add<Tonemapping>(true);
+            tone.mode.Override(TonemappingMode.ACES);
+            var grade = profile.Add<ColorAdjustments>(true);
+            grade.contrast.Override(10f); grade.saturation.Override(8f); grade.postExposure.Override(0.15f);
+            foreach (var c in profile.components) { c.hideFlags = HideFlags.HideInHierarchy; AssetDatabase.AddObjectToAsset(c, profile); }
+            EditorUtility.SetDirty(profile);
+            AssetDatabase.SaveAssets();
+            return profile;
         }
 
         static Material UnlitMat(Color c, string name)
@@ -242,6 +294,15 @@ namespace PracticeRange.Editor
             SetField(loop, "unlitShader", Shaders.Unlit);
             SetField(loop, "primitiveMeshes", BuiltinMeshes());
             SetField(loop, "baseMaterial", UnlitMat(Color.white, "Base"));
+            SetField(loop, "baseTransparentMaterial", TransparentMat());
+            SetField(loop, "gridMaterial", GridMat());
+            var volume = new GameObject("PostProcessing").AddComponent<Volume>();
+            volume.isGlobal = true; volume.priority = 0f;
+            volume.sharedProfile = EnsureVolumeProfile();
+            var camData = cam.GetUniversalAdditionalCameraData();
+            camData.renderPostProcessing = true;
+            camData.antialiasing = AntialiasingMode.None; // MSAA from the URP asset
+            cam.allowHDR = true;
             systems.AddComponent<SfxPlayer>();
             var bridge = new GameObject("FileBridge").AddComponent<FileBridge>();
             bridge.gameObject.AddComponent<CustomTargetImporter>();
@@ -290,7 +351,7 @@ namespace PracticeRange.Editor
                 var spawner = spawnerGo.AddComponent<TargetSpawner>(); SetField(spawner, "player", player.transform);
                 var arenaComp = root.AddComponent<TrainingArena>();
                 SetField(arenaComp, "spawner", spawner); SetField(arenaComp, "synthetic", synth);
-                var cfg = root.AddComponent<TrainingArenaConfigurator>(); SetField(cfg, "mode", mode); SetField(cfg, "spawner", spawner); SetField(cfg, "unlitShader", Shaders.Unlit); SetField(cfg, "primitiveMeshes", BuiltinMeshes()); SetField(cfg, "baseMaterial", UnlitMat(Color.white, "Base"));
+                var cfg = root.AddComponent<TrainingArenaConfigurator>(); SetField(cfg, "mode", mode); SetField(cfg, "spawner", spawner); SetField(cfg, "unlitShader", Shaders.Unlit); SetField(cfg, "primitiveMeshes", BuiltinMeshes()); SetField(cfg, "baseMaterial", UnlitMat(Color.white, "Base")); SetField(cfg, "baseTransparentMaterial", TransparentMat()); SetField(cfg, "gridMaterial", GridMat());
             }
             EditorSceneManager.SaveScene(scene, path);
         }

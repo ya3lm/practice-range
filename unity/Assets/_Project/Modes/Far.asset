@@ -19,13 +19,14 @@ MonoBehaviour:
   arenaHalfDepth: 90
   hasCover: 1
   coverCount: 6
+  maxLateralAngleDeg: 22
   defaultStyle: 1
   targetScale: 1.4
   maxSpeed: 5
   acceleration: 20
   health: 1
-  background: {r: 0.03, g: 0.03, b: 0.04, a: 1}
-  floor: {r: 0.07, g: 0.08, b: 0.08, a: 1}
-  accent: {r: 0.65, g: 1, b: 0.2, a: 1}
+  background: {r: 0.025, g: 0.03, b: 0.035, a: 1}
+  floor: {r: 0.05, g: 0.06, b: 0.065, a: 1}
+  accent: {r: 0.65, g: 1, b: 0.25, a: 1}
   behaviorName: DodgeFar
   decisionPeriod: 5

@@ -21,7 +21,7 @@ namespace PracticeRange.Targets
                 go.transform.localScale = Vector3.one * fs;
                 go.layer = LayerMask.NameToLayer("Ignore Raycast");
                 var r = go.GetComponent<Renderer>();
-                var m = PracticeRange.Core.Shaders.NewUnlit(color);
+                var m = PracticeRange.Core.Shaders.NewEmissive(color, 1.6f);
                 r.sharedMaterial = m;
                 var rb = go.AddComponent<Rigidbody>();
                 rb.mass = 0.2f;

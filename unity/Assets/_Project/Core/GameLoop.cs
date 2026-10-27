@@ -18,6 +18,8 @@ namespace PracticeRange.Core
         [SerializeField] Shader unlitShader;   // serialized so the shader ships in the build
         [SerializeField] Mesh[] primitiveMeshes; // cube, sphere, capsule, quad (built-in meshes, serialized so they ship)
         [SerializeField] Material baseMaterial;  // Base.mat, URP Unlit; runtime materials are copies of it
+        [SerializeField] Material baseTransparentMaterial;
+        [SerializeField] Material gridMaterial;
 
         public GamePhase Phase { get; private set; } = GamePhase.Menu;
         public float PhaseTime { get; private set; }
@@ -37,6 +39,8 @@ namespace PracticeRange.Core
             Instance = this;
             Shaders.Unlit = unlitShader;
             Shaders.Base = baseMaterial;
+            Shaders.BaseTransparent = baseTransparentMaterial;
+            Shaders.BaseGrid = gridMaterial;
             Primitives.Assign(primitiveMeshes);
             Debug.Log($"[Boot] shaderRef={(unlitShader == null ? "null" : unlitShader.name)} supported={(unlitShader != null && unlitShader.isSupported)} baseMat={(baseMaterial == null ? "null" : baseMaterial.shader == null ? "no-shader" : baseMaterial.shader.name)} find={(Shader.Find("Universal Render Pipeline/Unlit") == null ? "null" : "ok")} meshes={(primitiveMeshes == null ? -1 : primitiveMeshes.Length)} cube={(Primitives.Cube == null ? "null" : "ok")} rp={(UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline == null ? "builtin" : UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline.name)}");
             Application.targetFrameRate = -1;

@@ -71,10 +71,7 @@ namespace PracticeRange.Targets
 
         protected abstract void OnDeath(HitInfo hit, bool head);
 
-        protected static Material MakeUnlit(Color c)
-        {
-            return PracticeRange.Core.Shaders.NewUnlit(c);
-        }
+        protected static Material MakeUnlit(Color c) => PracticeRange.Core.Shaders.NewUnlit(c);
 
         protected static void SetMatColor(Material m, Color c)
         {

@@ -13,10 +13,14 @@ namespace PracticeRange.AI
         [SerializeField] Shader unlitShader;
         [SerializeField] Mesh[] primitiveMeshes;
         [SerializeField] Material baseMaterial;
+        [SerializeField] Material baseTransparentMaterial;
+        [SerializeField] Material gridMaterial;
         void Awake()
         {
             Shaders.Unlit = unlitShader;
             Shaders.Base = baseMaterial;
+            Shaders.BaseTransparent = baseTransparentMaterial;
+            Shaders.BaseGrid = gridMaterial;
             Primitives.Assign(primitiveMeshes);
             spawner.IsTraining = true;
             spawner.Configure(mode, mode.defaultStyle, mode.accent, AiLevel.Trained);

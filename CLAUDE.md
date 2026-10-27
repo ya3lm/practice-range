@@ -39,10 +39,16 @@ Read those before re-running anything.
 - Pure logic (sensitivity math, reward shaping, bandit updates, convex hull) is plain C# with no
   UnityEngine dependency beyond `Vector3`/`Mathf`, so it is testable in EditMode.
 - Everything the bootstrap creates must be recreatable: `ProjectBootstrap.Run()` is idempotent.
-- No asset-store assets. Primitives, procedural meshes, synthesized audio only.
+- No paid or asset-store assets. Primitives, procedural meshes, synthesized audio, Unity packages, and OFL/CC0 fonts only (IBM Plex, licence in `UI/Fonts/OFL.txt`).
 - Input System only (no legacy `Input.` calls).
 - WebGL: no threads, no `System.IO` file dialogs; file upload goes through `FileBridge.jslib`.
 - Do not commit `unity/Library`, `build/`, or `ml/results/*` except the CSV/PNG charts referenced by a post.
+
+## Design language (visual pass 2026-10-26)
+Dark lab instrument. Charcoal room with a measured grid (`Shaders/Grid.shader`, 1 m minor / 5 m major), one emissive
+accent per mode (HDR colour × `Shaders.AccentIntensity` so URP bloom glows), linear fog to the mode background, vignette,
+ACES tonemapping (`Settings/PostProcessing.asset`), expanding ring on kills (`KillRing`). Typography: IBM Plex Sans for
+labels, Plex Mono for every number. Keep it flat and unlit; no textures, no realism.
 
 ## Content rules that affect code
 - Target style defaults to Cube/Sphere. Mannequin is opt-in via settings.

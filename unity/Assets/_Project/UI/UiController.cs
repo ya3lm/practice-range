@@ -84,6 +84,7 @@ namespace PracticeRange.UI
                 _timer.text = s.roundSeconds.ToString("0.0");
             }
             _accuracy.text = (Loop.Stats.Accuracy * 100f).ToString("0") + "%  ·  " + Loop.Stats.kills + " kills";
+            _root.Q<Label>("mode-status").text = (s.mode + " · " + s.targetStyle).ToUpperInvariant();
             _aiStatus.text = "AI: " + s.aiLevel + (s.aiLevel != AiLevel.Dumb && !AI.PolicyRegistry.HasModel(s.mode) ? " (no model → scripted)" : "");
             _bandit.text = s.aiLevel == AiLevel.Learning && spawner != null ? $"learning: {spawner.SharedBandit.totalUpdates} updates · conf {spawner.SharedBandit.Confidence():0.00}" : "";
         }

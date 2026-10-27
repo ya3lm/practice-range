@@ -1,36 +1,62 @@
-.root { position: absolute; left: 0; top: 0; right: 0; bottom: 0; -unity-font-style: normal; color: #e8ecf1; }
+/* Practice Range — "lab instrument" UI. IBM Plex Sans for labels, Plex Mono for every number. */
+.root { position: absolute; left: 0; top: 0; right: 0; bottom: 0; color: #e6ebf0; -unity-font-definition: url("Fonts/IBMPlexSans-Regular.ttf"); }
+.mono { -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); }
+
+/* HUD */
 .hud { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
 .crosshair { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
-.ch-line { position: absolute; background-color: #00ffff; }
-.ch-dot { position: absolute; background-color: #00ffff; }
-.hud-top { position: absolute; left: 24px; top: 20px; }
-.hud-big { font-size: 40px; -unity-font-style: bold; color: #ffffff; }
-.hud-mid { font-size: 22px; color: #cfd6dd; }
-.hud-small { font-size: 13px; color: #8d98a5; }
-.countdown { position: absolute; left: 0; right: 0; top: 36%; -unity-text-align: middle-center; font-size: 120px; -unity-font-style: bold; color: #ffffff; }
-.hint { position: absolute; left: 0; right: 0; bottom: 18px; -unity-text-align: middle-center; font-size: 12px; color: #6f7b88; }
-.hint-inline { font-size: 12px; color: #6f7b88; margin-top: 18px; -unity-text-align: middle-center; }
+.ch-line { position: absolute; background-color: #00f0ff; }
+.ch-dot { position: absolute; background-color: #00f0ff; }
+.hud-top { position: absolute; left: 28px; top: 22px; }
+.hud-big { font-size: 44px; color: #ffffff; -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); letter-spacing: -1px; }
+.hud-mid { font-size: 18px; color: #c9d2dc; -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); margin-top: 2px; }
+.hud-small { font-size: 12px; color: #7f8b98; letter-spacing: 1px; margin-top: 6px; -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); }
+.countdown { position: absolute; left: 0; right: 0; top: 34%; -unity-text-align: middle-center; font-size: 140px; color: #ffffff; -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); }
+.hint { position: absolute; left: 0; right: 0; bottom: 18px; -unity-text-align: middle-center; font-size: 11px; color: #5e6a77; letter-spacing: 1px; }
+.hint-inline { font-size: 11px; color: #5e6a77; margin-top: 22px; -unity-text-align: middle-center; letter-spacing: 1px; }
 
-.menu { position: absolute; left: 0; top: 0; right: 0; bottom: 0; flex-direction: row; background-color: rgba(8, 10, 14, 0.92); }
-.menu-left { width: 300px; padding: 36px 28px; border-right-width: 1px; border-right-color: #1d232b; }
-.title { font-size: 28px; -unity-font-style: bold; color: #ffffff; letter-spacing: 2px; }
-.subtitle { font-size: 13px; color: #8d98a5; margin-bottom: 28px; }
-.btn { height: 42px; margin: 6px 0; border-radius: 6px; border-width: 1px; border-color: #2a323c; background-color: #161b22; color: #e8ecf1; font-size: 14px; }
-.btn:hover { background-color: #1f2630; }
-.btn-primary { background-color: #19c7c7; border-color: #19c7c7; color: #06181a; -unity-font-style: bold; }
-.btn-primary:hover { background-color: #3ee0e0; }
-.btn-ghost { background-color: transparent; color: #8d98a5; }
-.status { font-size: 12px; color: #8d98a5; margin: 4px 0 12px 0; white-space: normal; }
-.version { position: absolute; bottom: 16px; left: 28px; font-size: 11px; color: #4f5a66; }
+/* Menu */
+.menu { position: absolute; left: 0; top: 0; right: 0; bottom: 0; flex-direction: row; background-color: rgba(7, 9, 12, 0.94); }
+.menu-left { width: 320px; padding: 40px 32px; border-right-width: 1px; border-right-color: #171c23; background-color: rgba(10, 12, 16, 0.6); }
+.title { font-size: 26px; color: #ffffff; letter-spacing: 4px; -unity-font-definition: url("Fonts/IBMPlexSans-SemiBold.ttf"); }
+.subtitle { font-size: 12px; color: #7f8b98; margin-top: 4px; margin-bottom: 34px; letter-spacing: 1px; }
+.btn { height: 44px; margin: 6px 0; border-radius: 4px; border-width: 1px; border-color: #243040; background-color: #11161c; color: #e6ebf0; font-size: 13px; letter-spacing: 1px; }
+.btn:hover { background-color: #182029; border-color: #2f3e52; }
+.btn-primary { background-color: #00c8d6; border-color: #00c8d6; color: #04161a; -unity-font-definition: url("Fonts/IBMPlexSans-SemiBold.ttf"); }
+.btn-primary:hover { background-color: #2fe0ec; border-color: #2fe0ec; }
+.btn-ghost { background-color: transparent; border-color: transparent; color: #7f8b98; }
+.btn-ghost:hover { color: #c9d2dc; background-color: transparent; }
+.status { font-size: 11px; color: #7f8b98; margin: 6px 0 14px 0; white-space: normal; }
+.version { position: absolute; bottom: 18px; left: 32px; font-size: 10px; color: #46515d; letter-spacing: 1px; -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); }
 
-.settings { flex-grow: 1; padding: 28px 40px; }
-.section { font-size: 12px; color: #6f7b88; letter-spacing: 1px; margin: 22px 0 8px 0; -unity-font-style: bold; }
-.row { flex-direction: row; align-items: center; height: 44px; border-bottom-width: 1px; border-bottom-color: #1d232b; }
-.row-label { width: 200px; font-size: 14px; color: #cfd6dd; }
-.row-ctl { flex-grow: 1; margin: 0 10px; }
-.row-val { width: 90px; }
+.settings { flex-grow: 1; padding: 34px 48px; }
+.section { font-size: 10px; color: #00c8d6; letter-spacing: 3px; margin: 26px 0 8px 0; -unity-font-definition: url("Fonts/IBMPlexSans-SemiBold.ttf"); }
+.row { flex-direction: row; align-items: center; height: 42px; border-bottom-width: 1px; border-bottom-color: #161b22; }
+.row:hover { background-color: rgba(255, 255, 255, 0.02); }
+.row-label { width: 210px; font-size: 13px; color: #c9d2dc; }
+.row-ctl { flex-grow: 1; margin: 0 12px; }
+.row-val { width: 92px; }
 
-.scoreboard { position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: center; justify-content: center; background-color: rgba(8, 10, 14, 0.85); }
-.score-grid { flex-direction: row; flex-wrap: wrap; width: 640px; justify-content: center; margin-top: 18px; }
-.score { width: 300px; font-size: 20px; color: #e8ecf1; margin: 8px 10px; -unity-text-align: middle-center; }
-.timeline { width: 640px; height: 90px; margin-top: 16px; background-color: #0f1319; border-width: 1px; border-color: #1d232b; }
+/* UI Toolkit control skins */
+.unity-base-field__label { color: #c9d2dc; }
+.unity-base-popup-field__input, .unity-text-field__input, .unity-float-field__input {
+  background-color: #0e1217; border-color: #243040; border-width: 1px; border-radius: 3px; color: #e6ebf0; min-height: 28px; padding-left: 8px;
+}
+.unity-float-field__input, .unity-text-field__input { -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); }
+.unity-base-popup-field__input:hover, .unity-text-field__input:hover, .unity-float-field__input:hover { border-color: #00c8d6; }
+.unity-base-popup-field__arrow { -unity-background-image-tint-color: #7f8b98; }
+.unity-base-slider__tracker { background-color: #1a212b; border-width: 0; height: 3px; margin-top: 8px; border-radius: 2px; }
+.unity-base-slider__dragger { background-color: #00c8d6; border-width: 0; width: 12px; height: 12px; border-radius: 6px; margin-top: -4px; }
+.unity-base-slider__dragger:hover { background-color: #2fe0ec; }
+.unity-toggle__checkmark { background-color: #0e1217; border-color: #243040; border-width: 1px; border-radius: 3px; width: 18px; height: 18px; }
+.unity-toggle:checked .unity-toggle__checkmark { background-color: #00c8d6; border-color: #00c8d6; -unity-background-image-tint-color: #04161a; }
+.unity-scroller { width: 10px; }
+.unity-scroller__slider .unity-base-slider__dragger { background-color: #243040; width: 6px; border-radius: 3px; }
+.unity-scroller .unity-base-slider__tracker { background-color: transparent; }
+.unity-scroller__low-button, .unity-scroller__high-button { display: none; }
+
+/* Scoreboard */
+.scoreboard { position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: center; justify-content: center; background-color: rgba(7, 9, 12, 0.88); }
+.score-grid { flex-direction: row; flex-wrap: wrap; width: 660px; justify-content: center; margin-top: 22px; }
+.score { width: 310px; font-size: 18px; color: #e6ebf0; margin: 8px 10px; -unity-text-align: middle-center; -unity-font-definition: url("Fonts/IBMPlexMono-Medium.ttf"); }
+.timeline { width: 660px; height: 96px; margin-top: 18px; background-color: #0b0f14; border-width: 1px; border-color: #171c23; border-radius: 4px; }

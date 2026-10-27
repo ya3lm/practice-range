@@ -19,13 +19,14 @@ MonoBehaviour:
   arenaHalfDepth: 30
   hasCover: 0
   coverCount: 0
+  maxLateralAngleDeg: 32
   defaultStyle: 0
   targetScale: 1
   maxSpeed: 6
   acceleration: 25
   health: 1
-  background: {r: 0.08, g: 0.09, b: 0.11, a: 1}
-  floor: {r: 0.13, g: 0.14, b: 0.17, a: 1}
-  accent: {r: 0, g: 1, b: 1, a: 1}
+  background: {r: 0.055, g: 0.065, b: 0.085, a: 1}
+  floor: {r: 0.075, g: 0.09, b: 0.115, a: 1}
+  accent: {r: 0, g: 0.94, b: 1, a: 1}
   behaviorName: DodgeMid
   decisionPeriod: 5
