@@ -35,7 +35,7 @@ environment_parameters:
         completion_criteria: { measure: reward, behavior: DodgeMid, signal_smoothing: true, min_lesson_length: 100, threshold: 1.5 }
         value: 2.5
       - name: sharp
-        value: 1.2
+        value: 2.0
   reaction_ms:
     curriculum:
       - name: slow
@@ -45,7 +45,7 @@ environment_parameters:
         completion_criteria: { measure: reward, behavior: DodgeMid, signal_smoothing: true, min_lesson_length: 100, threshold: 1.5 }
         value: 220.0
       - name: fast
-        value: 160.0
+        value: 190.0
   fire_interval:
     sampler_type: uniform
     sampler_parameters: { min_value: 0.20, max_value: 0.45 }
